@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function Footer() {
     return (
         <footer className="relative overflow-hidden bg-[#cfc0a8] px-6 pb-8 pt-20 md:px-10 lg:px-16">
@@ -13,9 +15,14 @@ export default function Footer() {
                         {/* Brand */}
                         <div className="max-w-md">
                             <div className="flex items-center gap-4">
-                <span className="grid h-11 w-11 place-items-center border border-[#b99163]/45 text-sm font-semibold text-[#3a3128]">
-                  MS
-                </span>
+                                <Image
+                                    src="/images/logo.png"
+                                    alt="MindSpace Studio logo"
+                                    width={64}
+                                    height={64}
+                                    priority
+                                    className="h-14 w-14 object-contain opacity-95 transition duration-300 group-hover:scale-105"
+                                />
 
                                 <span className="text-sm font-bold uppercase tracking-[0.28em] text-[#2a2420]">
                   MindSpace Studio

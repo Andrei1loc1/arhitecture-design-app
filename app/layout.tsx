@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   description:
     "A premium architecture and interior design landing page starter built with Next.js, Three.js, React Three Fiber, Tailwind CSS, and Framer Motion.",
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    shortcut: "/favicon.svg"
+    icon: [{ url: "/images/logo.svg", type: "image/svg+xml" }],
+    shortcut: "/images/logo.svg",
   }
 };
 
