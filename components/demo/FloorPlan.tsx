@@ -6,6 +6,7 @@ import { useState } from "react";
 import confetti from "canvas-confetti";
 import { generateDesignFromFloorPlan } from "@/lib/floorplan-ai";
 
+
 export default function FloorPlan() {
     const [sourcePreview, setSourcePreview] = useState<string | null>(null);
     const [sourceFile, setSourceFile] = useState<File | null>(null);
@@ -95,6 +96,7 @@ export default function FloorPlan() {
     return (
         <section className="relative overflow-hidden bg-[#d4c4ac] px-6 py-24 md:px-10 lg:px-16">
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-56 bg-gradient-to-b from-transparent via-[#d0c0a8]/70 to-[#cfc0a8]" />
+
 
             <div className="relative z-10 mx-auto max-w-7xl">
                 <div className="rounded-[34px] border border-white/60 bg-white/20 p-6 shadow-[0_24px_80px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl md:p-10">

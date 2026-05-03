@@ -9,7 +9,6 @@ export default function Hero() {
     return (
         <section className="relative min-h-screen overflow-hidden bg-[#f4eee3]">
             <div className="absolute inset-0 bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat" />
-
             <div className="absolute inset-0 bg-gradient-to-b from-[#f7f0e6]/10 via-transparent to-[#e7dccb]/10" />
 
             <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-10">

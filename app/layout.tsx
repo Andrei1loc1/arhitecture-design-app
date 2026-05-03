@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Montserrat } from "next/font/google";
+import { Inter, Playfair_Display, Montserrat, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import CubeCursor from "@/components/cursor/CubeCursor";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -36,8 +40,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en" className={montserrat.variable}>
-      <body>{children}</body>
+      <html lang="en" className={cn("font-sans", geist.variable)}>
+      <body>
+      <CubeCursor />
+      {children}
+      </body>
       </html>
   );
 }
