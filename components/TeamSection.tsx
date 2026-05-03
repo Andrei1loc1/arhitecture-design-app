@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const teamMembers = [
     {
         name: "Lighezan Adina",
-        role: "Arhitect Principal",
+        role: "Specialist arhitectură & design interior",
         image: "/images/team-2.jpeg",
         className: "left-[8%] top-[12%] h-40 w-40 md:h-48 md:w-48",
         animate: { y: [0, -18, 0], x: [0, 10, 0] },
@@ -14,7 +14,7 @@ const teamMembers = [
     },
     {
         name: "Nicolaescu Adina",
-        role: "Designer Interior",
+        role: "Administrator",
         image: "/images/team-lider1.jpeg",
         className: "left-[38%] top-[38%] h-52 w-52 md:h-64 md:w-64",
         animate: { y: [0, 16, 0], x: [0, -12, 0] },
@@ -22,9 +22,9 @@ const teamMembers = [
     },
     {
         name: "Mențe Maia",
-        role: "3D Visualizer",
+        role: "Coordonator proiecte & marketing",
         image: "/images/team-3.jpeg",
-        className: "right-[8%] top-[16%] h-36 w-36 md:h-44 md:w-44",
+        className: "right-[0%] top-[16%] h-36 w-36 md:h-44 md:w-44",
         animate: { y: [0, -14, 0], x: [0, 8, 0] },
         duration: 6.5,
     },
@@ -99,11 +99,12 @@ export default function TeamSection() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#17130f]/45 via-transparent to-white/10" />
                                 </div>
 
-                                <div className="absolute -bottom-14 left-1/2 w-max -translate-x-1/2 text-center">
+                                <div className="absolute -bottom-18 left-1/2 w-[260px] -translate-x-1/2 text-center">
                                     <p className="text-sm font-black uppercase tracking-[0.08em] text-[#2a2420]">
                                         {member.name}
                                     </p>
-                                    <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.16em] text-[#7a6d5d]">
+
+                                    <p className="mx-auto mt-2 max-w-[230px] text-[11px] font-medium uppercase leading-5 tracking-[0.16em] text-[#7a6d5d]">
                                         {member.role}
                                     </p>
                                 </div>
