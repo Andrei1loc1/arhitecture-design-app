@@ -3,10 +3,10 @@
 import Image from "next/image";
 
 const navItems = [
-    { label: "About Us", href: "#about" },
-    { label: "Services", href: "#services" },
-    { label: "Studio", href: "#about1" },
-    { label: "Contact", href: "#contact" },
+    { label: "Despre noi", href: "#about" },
+    { label: "Echipă", href: "#team" },
+    { label: "Ofertă", href: "#pricing" },
+    { label: "MindPsihology", href: "#design-profile" },
 ];
 
 export default function Navbar() {
@@ -47,10 +47,10 @@ export default function Navbar() {
                 </div>
 
                 <a
-                    href="#contact"
+                    href="#design-ai"
                     className="hidden rounded-lg bg-gradient-to-r from-[#b99163] via-[#d8c28a] to-[#b99163] px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-[#2a2420] shadow-[0_8px_18px_rgba(95,70,35,0.18),inset_0_1px_0_rgba(255,255,255,0.45)] transition duration-300 hover:-translate-y-0.5 hover:brightness-105 sm:inline-flex"
                 >
-                    Inquire
+                    mind of world
                 </a>
             </div>
         </nav>

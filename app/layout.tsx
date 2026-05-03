@@ -25,7 +25,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "MindSpace Studio | Architecture & Interior Design",
+  title: "M I N D S P A C E - S T U D I O",
   description:
     "A premium architecture and interior design landing page starter built with Next.js, Three.js, React Three Fiber, Tailwind CSS, and Framer Motion.",
   icons: {

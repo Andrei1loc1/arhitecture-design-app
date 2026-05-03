@@ -55,7 +55,7 @@ export default function Hero() {
                 </p>
 
                 <a
-                    href="#projects"
+                    href="#design-ai"
                     className="mt-10 bg-gradient-to-r from-[#b99163] via-[#d8c28a] to-[#b99163] rounded-lg inline-flex items-center justify-center px-12 py-4 text-xs font-bold uppercase tracking-[0.18em] text-[#2a2420] transition-colors hover:border-[#b99163] hover:bg-[#b99163]/10"
                 >
                     Explore Our Vision

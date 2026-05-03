@@ -94,7 +94,7 @@ export default function FloorPlan() {
     }
 
     return (
-        <section className="relative overflow-hidden bg-[#d4c4ac] px-6 py-24 md:px-10 lg:px-16">
+        <section id="design-ai" className="relative overflow-hidden bg-[#d4c4ac] px-6 py-24 md:px-10 lg:px-16">
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-56 bg-gradient-to-b from-transparent via-[#d0c0a8]/70 to-[#cfc0a8]" />
 
 
