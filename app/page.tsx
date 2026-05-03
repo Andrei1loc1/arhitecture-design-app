@@ -6,6 +6,7 @@ import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
 import FloorPlan from "@/components/demo/FloorPlan";
 import SplashCursor from "@/components/SplashCursor"
+import ArchitecturalProfileSection from "@/components/ArchitecturalProfileSection";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       <TeamSection />
       <PricingSection/>
       <FloorPlan/>
+      <ArchitecturalProfileSection />
       <Footer/>
     </main>
   );
