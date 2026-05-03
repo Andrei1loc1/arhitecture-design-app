@@ -6,10 +6,15 @@ import { useState } from "react";
 import confetti from "canvas-confetti";
 import { generateDesignFromFloorPlan } from "@/lib/floorplan-ai";
 
+type PixazoTextResponse = {
+    imageUrl: string;
+    requestId?: string;
+};
 
 export default function FloorPlan() {
     const [sourcePreview, setSourcePreview] = useState<string | null>(null);
     const [sourceFile, setSourceFile] = useState<File | null>(null);
+    const [textPrompt, setTextPrompt] = useState("");
     const [result, setResult] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -63,13 +68,67 @@ export default function FloorPlan() {
         });
     }
 
+    async function generateFromText(prompt: string) {
+        const finalPrompt = `
+Premium interior architecture render.
+
+User description:
+${prompt}
+
+Design direction:
+- warm minimalist interior design
+- premium architecture studio aesthetic
+- elegant, refined, realistic interior visualization
+- ivory, beige, soft wood, natural stone, champagne lighting
+- clean composition
+- realistic light and shadows
+- no text, no logo, no watermark
+`;
+
+        const response = await fetch("/api/pixazo-text", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                prompt: finalPrompt,
+                width: 768,
+                height: 768,
+                num_steps: 4,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Nu s-a putut genera imaginea din text.");
+        }
+
+        return data as PixazoTextResponse;
+    }
+
     async function handleGenerate() {
-        if (!sourceFile) return;
+        const cleanPrompt = textPrompt.trim();
+
+        if (!sourceFile && !cleanPrompt) return;
 
         try {
             setLoading(true);
             setResult(null);
             setErrorMessage(null);
+
+            if (cleanPrompt) {
+                const response = await generateFromText(cleanPrompt);
+
+                setResult(response.imageUrl);
+                launchConfetti();
+                return;
+            }
+
+            if (!sourceFile) {
+                setErrorMessage("Încarcă un plan sau scrie o descriere.");
+                return;
+            }
 
             const response = await Promise.race([
                 generateDesignFromFloorPlan(sourceFile, {
@@ -85,7 +144,12 @@ export default function FloorPlan() {
         } catch (error) {
             console.error("Eroare la generare:", error);
 
-            setErrorMessage("Model indisponibil. Afișez varianta demo.");
+            setErrorMessage(
+                error instanceof Error
+                    ? error.message
+                    : "Model indisponibil. Afișez varianta demo."
+            );
+
             setResult("/images/camera_demo.png");
             launchConfetti();
         } finally {
@@ -93,24 +157,28 @@ export default function FloorPlan() {
         }
     }
 
-    return (
-        <section id="design-ai" className="relative overflow-hidden bg-[#d4c4ac] px-6 py-24 md:px-10 lg:px-16">
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-56 bg-gradient-to-b from-transparent via-[#d0c0a8]/70 to-[#cfc0a8]" />
+    const canGenerate = Boolean(sourceFile || textPrompt.trim());
 
+    return (
+        <section
+            id="design-ai"
+            className="relative overflow-hidden bg-[#d4c4ac] px-6 py-24 md:px-10 lg:px-16"
+        >
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-56 bg-gradient-to-b from-transparent via-[#d0c0a8]/70 to-[#cfc0a8]" />
 
             <div className="relative z-10 mx-auto max-w-7xl">
                 <div className="rounded-[34px] border border-white/60 bg-white/20 p-6 shadow-[0_24px_80px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl md:p-10">
                     <div className="mx-auto max-w-3xl text-center">
-            <span className="mb-4 block text-[10px] font-bold uppercase tracking-[0.28em] text-[#9a7b3e]">
-              Demo AI
-            </span>
+                        <span className="mb-4 block text-[10px] font-bold uppercase tracking-[0.28em] text-[#9a7b3e]">
+                            Demo AI
+                        </span>
 
                         <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-[-0.05em] text-[#2a2420] md:text-5xl">
-                            Transformă un plan 2D într-un design 3D
+                            Transformă un plan 2D sau o idee într-un design 3D
                         </h2>
 
                         <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-[#5a5145]">
-                            Încarcă un plan, iar aplicația generează automat o variantă demo
+                            Încarcă un plan sau descrie spațiul dorit, iar aplicația generează automat o variantă demo
                             de design interior.
                         </p>
                     </div>
@@ -156,6 +224,28 @@ export default function FloorPlan() {
                                     onChange={handleFileChange}
                                 />
                             </label>
+
+                            <div className="mt-5 rounded-[22px] border border-white/55 bg-white/20 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+                                <div className="flex items-center justify-between gap-4">
+                                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#9a7b3e]">
+                                        MIND to reality
+                                    </p>
+
+                                    <span className="rounded-full border border-[#d6bf86]/50 bg-[#f7efe3]/35 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-[#8f733d]">
+                                        ARHITECTURE PLAN
+                                    </span>
+                                </div>
+
+                                <textarea
+                                    value={textPrompt}
+                                    onChange={(event) => {
+                                        setTextPrompt(event.target.value);
+                                        setErrorMessage(null);
+                                    }}
+                                    placeholder="Ex: Living modern minimalist, pereți crem, atmosferă relaxantă"
+                                    className="mt-4 h-14 w-full resize-none rounded-[18px] border border-white/50 bg-[#f7efe3]/45 px-4 py-3.5 text-sm leading-6 text-[#3a332b] outline-none placeholder:text-[#8a7d70] transition focus:border-[#b39458]/60 focus:bg-[#f7efe3]/60"
+                                />
+                            </div>
                         </div>
 
                         <div className="rounded-[28px] border border-white/60 bg-white/25 p-5">
@@ -163,7 +253,7 @@ export default function FloorPlan() {
                                 Design generat
                             </p>
 
-                            <div className="flex h-[360px] items-center justify-center overflow-hidden rounded-[22px] border border-white/50 bg-white/20">
+                            <div className="flex h-[560px] items-center justify-center overflow-hidden rounded-[22px] border border-white/50 bg-white/20">
                                 {loading ? (
                                     <div className="flex flex-col items-center justify-center gap-5">
                                         <div className="relative h-16 w-16">
@@ -177,7 +267,7 @@ export default function FloorPlan() {
                                                 Generăm atmosfera
                                             </p>
                                             <p className="mt-2 text-sm text-[#6a6054]">
-                                                Analizăm planul, lumina și proporțiile.
+                                                Construim imaginea pe baza planului sau descrierii.
                                             </p>
                                         </div>
                                     </div>
@@ -202,7 +292,7 @@ export default function FloorPlan() {
                                         </p>
 
                                         <p className="mt-3 max-w-xs text-sm leading-6 text-[#6a6054]">
-                                            După generare, AI-ul va transforma planul într-o propunere
+                                            După generare, AI-ul va transforma planul sau descrierea într-o propunere
                                             vizuală de interior.
                                         </p>
 
@@ -227,7 +317,7 @@ export default function FloorPlan() {
                         <button
                             type="button"
                             onClick={handleGenerate}
-                            disabled={!sourceFile || loading}
+                            disabled={!canGenerate || loading}
                             className="inline-flex items-center justify-center rounded-full border border-[#d6bf86]/70 bg-gradient-to-br from-[#f1deb0] via-[#b69454] to-[#7b5d31] px-8 py-4 text-xs font-extrabold uppercase tracking-[0.2em] text-[#17130f] shadow-[0_10px_22px_rgba(78,56,25,0.18),inset_0_1px_0_rgba(255,255,255,0.6)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {loading ? "Generez..." : "Generează design"}
