@@ -5,25 +5,25 @@ import { motion } from "framer-motion";
 
 const teamMembers = [
     {
-        name: "Andrei Ionescu",
+        name: "Lighezan Adina",
         role: "Arhitect Principal",
-        image: "/images/team-1.webp",
+        image: "/images/team-2.jpeg",
         className: "left-[8%] top-[12%] h-40 w-40 md:h-48 md:w-48",
         animate: { y: [0, -18, 0], x: [0, 10, 0] },
         duration: 7,
     },
     {
-        name: "Mara Popescu",
+        name: "Nicolaescu Adina",
         role: "Designer Interior",
-        image: "/images/team-2.webp",
+        image: "/images/team-lider1.jpeg",
         className: "left-[38%] top-[38%] h-52 w-52 md:h-64 md:w-64",
         animate: { y: [0, 16, 0], x: [0, -12, 0] },
         duration: 8,
     },
     {
-        name: "Vlad Marin",
+        name: "Mențe Maia",
         role: "3D Visualizer",
-        image: "/images/team-3.webp",
+        image: "/images/team-3.jpeg",
         className: "right-[8%] top-[16%] h-36 w-36 md:h-44 md:w-44",
         animate: { y: [0, -14, 0], x: [0, 8, 0] },
         duration: 6.5,
