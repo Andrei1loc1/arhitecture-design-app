@@ -226,8 +226,7 @@ export default function ArchitecturalProfileSection() {
 
                 {/* Right card */}
                 <div className="relative">
-                    <div className="rounded-[34px] border border-white/60 bg-white/20 p-6 shadow-[0_24px_80px_rgba(45,38,30,0.12),inset_0_1px_0_rgba(255,255,255,0.75)] backdrop-blur-xl md:p-8">
-                        {!profile ? (
+                    <div className="flex h-[620px] flex-col overflow-hidden rounded-[34px] border border-white/60 bg-white/20 p-6 shadow-[0_24px_80px_rgba(45,38,30,0.12),inset_0_1px_0_rgba(255,255,255,0.75)] backdrop-blur-xl md:p-8">                        {!profile ? (
                             <>
                                 <div className="mb-8">
                                     <div className="flex items-center justify-between">
@@ -251,11 +250,10 @@ export default function ArchitecturalProfileSection() {
 
                                 <AnimatePresence mode="wait">
                                     <motion.div
-                                        key={step}
                                         initial={{ opacity: 0, y: 18 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -18 }}
-                                        transition={{ duration: 0.35, ease: "easeOut" }}
+                                        transition={{ duration: 0.45, ease: "easeOut" }}
+                                        className="h-full overflow-y-auto pr-2"
                                     >
                                         <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#9a7b3e]">
                                             {currentQuestion.eyebrow}
@@ -328,6 +326,7 @@ export default function ArchitecturalProfileSection() {
                                 initial={{ opacity: 0, y: 18 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.45, ease: "easeOut" }}
+                                className="profile-card-scroll h-full overflow-y-auto pr-2 [scrollbar-width:thin] [scrollbar-color:#b39458_transparent]"
                             >
                                 <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#9a7b3e]">
                                     Profil generat

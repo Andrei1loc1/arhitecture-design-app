@@ -47,7 +47,7 @@ export default function Navbar() {
                 </div>
 
                 <a
-                    href="#design-ai"
+                    href="#design-profile"
                     className="hidden rounded-lg bg-gradient-to-r from-[#b99163] via-[#d8c28a] to-[#b99163] px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] text-[#2a2420] shadow-[0_8px_18px_rgba(95,70,35,0.18),inset_0_1px_0_rgba(255,255,255,0.45)] transition duration-300 hover:-translate-y-0.5 hover:brightness-105 sm:inline-flex"
                 >
                     mind of world
