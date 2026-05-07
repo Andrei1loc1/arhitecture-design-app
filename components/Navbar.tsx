@@ -11,7 +11,7 @@ const navItems = [
 
 export default function Navbar() {
     return (
-        <nav className="fixed inset-x-0 top-4 z-50 mx-auto flex h-16 w-[calc(100%-1.5rem)] max-w-7xl items-center rounded-2xl px-4 sm:w-[calc(100%-3rem)] sm:px-8 md:top-5 md:h-20 lg:w-full">
+        <nav className="fixed inset-x-0 top-4 z-50 mx-auto flex h-16 w-[calc(100%-1.5rem)] max-w-7xl items-center rounded-2xl px-4 sm:top-5 sm:w-[calc(100%-3rem)] sm:px-8 md:h-20 lg:w-[calc(100%-4rem)]">
             <div className="absolute inset-0 rounded-2xl bg-[#f7efe3]/55 backdrop-blur-md" />
 
             <div className="absolute inset-0 rounded-2xl shadow-[0_16px_40px_rgba(65,52,38,0.14),inset_0_1px_0_rgba(255,255,255,0.75),inset_0_-1px_0_rgba(120,100,75,0.10)]" />
