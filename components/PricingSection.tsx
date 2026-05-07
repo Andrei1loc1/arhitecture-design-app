@@ -1,41 +1,83 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const plans = [
     {
-        name: "Essential",
-        tag: "Concept",
+        name: "O cameră",
+        tag: "Start",
         price: "€450",
-        description: "Pentru o direcție estetică limpede și o bază bună de pornire.",
-        features: ["Consultare", "Moodboard", "Paletă materiale"],
+        description: "Pentru o cameră care merită mai mult decât o simplă reamenajare.",
+        features: ["Stare clară pentru spațiu", "Culori și texturi alese", "Idei ușor de pus în practică"],
         highlighted: false,
         animate: { y: [0, -5, 0] },
         duration: 6.5,
     },
     {
-        name: "Signature",
+        name: "Apartament",
         tag: "Complet",
-        price: "€1.250",
-        description: "Pentru un interior coerent, cu imagine clară și soluții bine legate.",
-        features: ["Concept complet", "Plan mobilare", "Randări 3D"],
+        price: "€1.350",
+        description: "Pentru un apartament care se simte legat, aerisit și bine gândit.",
+        features: ["Fiecare cameră în aceeași poveste", "Mobilare cu sens", "Imagine clară înainte de execuție"],
         highlighted: true,
         animate: { y: [0, 7, 0] },
         duration: 7.5,
     },
     {
-        name: "Atelier",
+        name: "Casă",
         tag: "Premium",
-        price: "€2.400",
-        description: "Pentru proiecte cu detalii speciale, finisaje alese și suport extins.",
-        features: ["Design complet", "Detalii custom", "Asistență proiect"],
+        price: "€3.050",
+        description: "Pentru o casă care se simte unitară, elegantă și gândită până la ultimul detaliu.",
+        features: ["Identitate vizuală pentru întreaga locuință", "Finisaje, accente și detalii memorabile", "Ghidaj dedicat de la concept la rezultat"],
         highlighted: false,
         animate: { y: [0, -4, 0] },
         duration: 6,
     },
 ];
 
+const customRooms = [
+    "Living",
+    "Dormitor",
+    "Bucătărie",
+    "Baie",
+    "Birou",
+    "Hol",
+    "Dressing",
+    "Terasă",
+    "Alt spațiu",
+];
+
 export default function PricingSection() {
+    const [isCustomOpen, setIsCustomOpen] = useState(false);
+    const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
+    const [customDescription, setCustomDescription] = useState("");
+    const [submitted, setSubmitted] = useState(false);
+
+    function toggleRoom(room: string) {
+        setSubmitted(false);
+        setSelectedRooms((current) =>
+            current.includes(room)
+                ? current.filter((item) => item !== room)
+                : [...current, room]
+        );
+    }
+
+    function openCustomModal() {
+        setIsCustomOpen(true);
+    }
+
+    function closeCustomModal() {
+        setIsCustomOpen(false);
+        setSelectedRooms([]);
+        setCustomDescription("");
+        setSubmitted(false);
+    }
+
+    function handleCustomSubmit() {
+        setSubmitted(true);
+    }
+
     return (
         <section
             id="pricing"
@@ -146,10 +188,129 @@ export default function PricingSection() {
                     </div>
 
                     <p className="mt-7 text-center text-[10px] font-medium uppercase tracking-[0.16em] text-[#6a6054]">
-                        Prețurile sunt orientative și se ajustează în funcție de spațiu, complexitate și nivelul de detaliu.
+                        Prețurile sunt orientative și se ajustează în funcție de suprafață, complexitate și nivelul de detaliu.
                     </p>
+
+                    <div className="mt-6 flex justify-center">
+                        <button
+                            type="button"
+                            onClick={openCustomModal}
+                            className="inline-flex items-center justify-center rounded-full border border-white/60 bg-white/25 px-6 py-3 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#2a2420] shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition duration-300 hover:bg-white/40"
+                        >
+                            Vreau un pachet personalizat
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {isCustomOpen && (
+                <div className="fixed inset-0 z-[80] flex items-center justify-center bg-[#17130f]/45 px-5 backdrop-blur-sm">
+                    <motion.div
+                        initial={{ opacity: 0, y: 18, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.28, ease: "easeOut" }}
+                        className="relative max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-[28px] border border-white/60 bg-[#f7efe3]/90 p-5 shadow-[0_24px_80px_rgba(23,19,15,0.22),inset_0_1px_0_rgba(255,255,255,0.75)] backdrop-blur-xl md:p-7"
+                    >
+                        <button
+                            type="button"
+                            onClick={closeCustomModal}
+                            aria-label="Închide modalul"
+                            className="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full border border-white/60 bg-white/35 text-sm font-black text-[#2a2420] transition hover:bg-white/55"
+                        >
+                            ×
+                        </button>
+
+                        {submitted ? (
+                            <div className="flex min-h-[420px] flex-col items-center justify-center px-3 py-12 text-center">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#9a7b3e]">
+                                    Cerere primită
+                                </p>
+
+                                <h3 className="mt-5 text-4xl font-black uppercase leading-none tracking-[-0.05em] text-[#2a2420] md:text-6xl">
+                                    Confirmat
+                                </h3>
+
+                                <p className="mx-auto mt-5 max-w-md text-base leading-7 text-[#5a5145]">
+                                    Am primit descrierea ta și revenim cu o propunere potrivită
+                                    pentru spațiul tău.
+                                </p>
+                            </div>
+                        ) : (
+                            <>
+                                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#9a7b3e]">
+                                    Cerere specială
+                                </p>
+
+                                <h3 className="mt-4 pr-10 text-3xl font-black uppercase leading-none tracking-[-0.05em] text-[#2a2420] md:text-4xl">
+                                    Pachet personalizat
+                                </h3>
+
+                                <p className="mt-4 max-w-xl text-sm leading-6 text-[#5a5145]">
+                                    Alege spațiile care te interesează și lasă-ne câteva detalii despre
+                                    atmosfera, funcționalitatea sau stilul pe care îl ai în minte.
+                                </p>
+
+                                <div className="mt-6">
+                                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#9a7b3e]">
+                                        Camere
+                                    </p>
+
+                                    <div className="mt-4 flex flex-wrap gap-2">
+                                        {customRooms.map((room) => {
+                                            const selected = selectedRooms.includes(room);
+
+                                            return (
+                                                <button
+                                                    key={room}
+                                                    type="button"
+                                                    onClick={() => toggleRoom(room)}
+                                                    className={`rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] transition ${
+                                                        selected
+                                                            ? "border-[#d6bf86]/80 bg-[#d6bf86]/45 text-[#2a2420] shadow-[0_8px_20px_rgba(78,56,25,0.12)]"
+                                                            : "border-white/60 bg-white/30 text-[#5a5145] hover:bg-white/45"
+                                                    }`}
+                                                >
+                                                    {room}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                <label className="mt-6 block">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#9a7b3e]">
+                                        Descriere
+                                    </span>
+
+                                    <textarea
+                                        value={customDescription}
+                                        onChange={(event) => {
+                                            setCustomDescription(event.target.value);
+                                            setSubmitted(false);
+                                        }}
+                                        placeholder="Ex: Vreau un living cald, luminos, cu zonă de relaxare, depozitare discretă și materiale naturale."
+                                        className="mt-4 min-h-32 w-full resize-none rounded-[20px] border border-white/60 bg-white/35 px-4 py-4 text-sm leading-6 text-[#3a332b] outline-none placeholder:text-[#8a7d70] transition focus:border-[#b39458]/70 focus:bg-white/45"
+                                    />
+                                </label>
+
+                                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                    <p className="text-xs leading-5 text-[#6a6054]">
+                                        Spune-ne ce îți dorești, iar noi conturăm o ofertă potrivită spațiului tău.
+                                    </p>
+
+                                    <button
+                                        type="button"
+                                        onClick={handleCustomSubmit}
+                                        className="inline-flex items-center justify-center rounded-full border border-[#d6bf86]/70 bg-gradient-to-br from-[#f1deb0] via-[#b69454] to-[#7b5d31] px-6 py-3 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#17130f] shadow-[0_10px_22px_rgba(78,56,25,0.18),inset_0_1px_0_rgba(255,255,255,0.6)] transition hover:brightness-105"
+                                    >
+                                        Contactează-ne
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </motion.div>
+                </div>
+            )}
         </section>
     );
 }
