@@ -27,7 +27,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "M I N D S P A C E - S T U D I O",
   description:
-    "A premium architecture and interior design landing page starter built with Next.js, Three.js, React Three Fiber, Tailwind CSS, and Framer Motion.",
+    "MindSpace Studio este un studio de arhitectură și design interior din Timișoara, dedicat spațiilor calde, funcționale și atent compuse.",
   icons: {
     icon: [{ url: "/images/logo.svg", type: "image/svg+xml" }],
     shortcut: "/images/logo.svg",

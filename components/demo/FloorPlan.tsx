@@ -162,38 +162,38 @@ Design direction:
     return (
         <section
             id="design-ai"
-            className="relative overflow-hidden bg-[#d4c4ac] px-6 py-24 md:px-10 lg:px-16"
+            className="relative overflow-hidden bg-[#d4c4ac] px-5 py-16 md:px-10 md:py-24 lg:px-16"
         >
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-56 bg-gradient-to-b from-transparent via-[#d0c0a8]/70 to-[#cfc0a8]" />
 
             <div className="relative z-10 mx-auto max-w-7xl">
-                <div className="rounded-[34px] border border-white/60 bg-white/20 p-6 shadow-[0_24px_80px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl md:p-10">
+                <div className="rounded-[26px] border border-white/60 bg-white/20 p-4 shadow-[0_24px_80px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl md:rounded-[34px] md:p-10">
                     <div className="mx-auto max-w-3xl text-center">
                         <span className="mb-4 block text-[10px] font-bold uppercase tracking-[0.28em] text-[#9a7b3e]">
-                            Demo AI
+                            Atelier vizual
                         </span>
 
-                        <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-[-0.05em] text-[#2a2420] md:text-5xl">
-                            Transformă un plan 2D sau o idee într-un design 3D
+                        <h2 className="text-2xl font-black uppercase leading-[1] tracking-[-0.04em] text-[#2a2420] md:text-5xl md:leading-[0.95] md:tracking-[-0.05em]">
+                            Imaginează spațiul înainte să prindă formă.
                         </h2>
 
                         <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-[#5a5145]">
-                            Încarcă un plan sau descrie spațiul dorit, iar aplicația generează automat o variantă demo
-                            de design interior.
+                            O zonă interactivă pentru explorarea atmosferei, materialelor și
+                            proporțiilor unui interior înainte de etapa finală de proiectare.
                         </p>
                     </div>
 
-                    <div className="mt-10 grid gap-6 lg:grid-cols-2">
-                        <div className="rounded-[28px] border border-white/60 bg-white/25 p-5">
+                    <div className="mt-8 grid gap-5 md:mt-10 md:gap-6 lg:grid-cols-2">
+                        <div className="rounded-[22px] border border-white/60 bg-white/25 p-4 md:rounded-[28px] md:p-5">
                             <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-[#9a7b3e]">
-                                Plan încărcat
+                                Inspirația spațiului
                             </p>
 
-                            <label className="flex h-[360px] cursor-pointer items-center justify-center overflow-hidden rounded-[22px] border border-dashed border-[#9a7b3e]/45 bg-white/20 text-center text-sm text-[#5a5145] transition hover:bg-white/30">
+                            <label className="flex h-[260px] cursor-pointer items-center justify-center overflow-hidden rounded-[18px] border border-dashed border-[#9a7b3e]/45 bg-white/20 text-center text-sm text-[#5a5145] transition hover:bg-white/30 md:h-[360px] md:rounded-[22px]">
                                 {sourcePreview ? (
                                     <img
                                         src={sourcePreview}
-                                        alt="Plan încărcat"
+                                        alt="Inspirație încărcată"
                                         className="h-full w-full object-contain"
                                     />
                                 ) : (
@@ -208,7 +208,7 @@ Design direction:
                                         </p>
 
                                         <p className="mt-3 max-w-xs text-sm leading-6 text-[#6a6054]">
-                                            Alege o imagine cu planul 2D al spațiului tău.
+                                            Alege o imagine, o schiță sau un reper vizual pentru spațiul tău.
                                         </p>
 
                                         <div className="mt-5 rounded-full border border-white/55 bg-white/25 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#9a7b3e] backdrop-blur-md">
@@ -225,14 +225,14 @@ Design direction:
                                 />
                             </label>
 
-                            <div className="mt-5 rounded-[22px] border border-white/55 bg-white/20 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
+                            <div className="mt-5 rounded-[18px] border border-white/55 bg-white/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] md:rounded-[22px] md:p-5">
                                 <div className="flex items-center justify-between gap-4">
                                     <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#9a7b3e]">
-                                        MIND to reality
+                                        Atmosfera dorită
                                     </p>
 
                                     <span className="rounded-full border border-[#d6bf86]/50 bg-[#f7efe3]/35 px-3 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-[#8f733d]">
-                                        ARHITECTURE PLAN
+                                        INSPIRAȚIE
                                     </span>
                                 </div>
 
@@ -242,18 +242,18 @@ Design direction:
                                         setTextPrompt(event.target.value);
                                         setErrorMessage(null);
                                     }}
-                                    placeholder="Ex: Living modern minimalist, pereți crem, atmosferă relaxantă"
+                                    placeholder="Ex: Living luminos, familie activă, depozitare ascunsă, atmosferă calmă"
                                     className="mt-4 h-14 w-full resize-none rounded-[18px] border border-white/50 bg-[#f7efe3]/45 px-4 py-3.5 text-sm leading-6 text-[#3a332b] outline-none placeholder:text-[#8a7d70] transition focus:border-[#b39458]/60 focus:bg-[#f7efe3]/60"
                                 />
                             </div>
                         </div>
 
-                        <div className="rounded-[28px] border border-white/60 bg-white/25 p-5">
+                        <div className="rounded-[22px] border border-white/60 bg-white/25 p-4 md:rounded-[28px] md:p-5">
                             <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-[#9a7b3e]">
-                                Design generat
+                                Mood vizual
                             </p>
 
-                            <div className="flex h-[560px] items-center justify-center overflow-hidden rounded-[22px] border border-white/50 bg-white/20">
+                            <div className="flex h-[340px] items-center justify-center overflow-hidden rounded-[18px] border border-white/50 bg-white/20 md:h-[560px] md:rounded-[22px]">
                                 {loading ? (
                                     <div className="flex flex-col items-center justify-center gap-5">
                                         <div className="relative h-16 w-16">
@@ -264,17 +264,17 @@ Design direction:
 
                                         <div className="text-center">
                                             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#2a2420]">
-                                                Generăm atmosfera
+                                                Conturăm atmosfera
                                             </p>
                                             <p className="mt-2 text-sm text-[#6a6054]">
-                                                Construim imaginea pe baza planului sau descrierii.
+                                                Pregătim o imagine de referință pentru atmosfera spațiului.
                                             </p>
                                         </div>
                                     </div>
                                 ) : result ? (
                                     <img
                                         src={result}
-                                        alt="Design generat"
+                                        alt="Mood vizual"
                                         className="h-full w-full object-contain"
                                     />
                                 ) : (
@@ -288,12 +288,11 @@ Design direction:
                                         </div>
 
                                         <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#2a2420]">
-                                            Designul se va construi aici
+                                            Atmosfera vizuală apare aici
                                         </p>
 
                                         <p className="mt-3 max-w-xs text-sm leading-6 text-[#6a6054]">
-                                            După generare, AI-ul va transforma planul sau descrierea într-o propunere
-                                            vizuală de interior.
+                                            Un punct de pornire vizual pentru discuții despre stil, lumină și materiale.
                                         </p>
 
                                         <div className="mt-5 flex gap-2">
@@ -320,7 +319,7 @@ Design direction:
                             disabled={!canGenerate || loading}
                             className="inline-flex items-center justify-center rounded-full border border-[#d6bf86]/70 bg-gradient-to-br from-[#f1deb0] via-[#b69454] to-[#7b5d31] px-8 py-4 text-xs font-extrabold uppercase tracking-[0.2em] text-[#17130f] shadow-[0_10px_22px_rgba(78,56,25,0.18),inset_0_1px_0_rgba(255,255,255,0.6)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                            {loading ? "Generez..." : "Generează design"}
+                            {loading ? "Se conturează..." : "Explorează atmosfera"}
                         </button>
                     </div>
                 </div>

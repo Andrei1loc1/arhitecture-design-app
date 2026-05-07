@@ -7,7 +7,7 @@ const plans = [
         name: "Essential",
         tag: "Concept",
         price: "€450",
-        description: "Direcție vizuală clară pentru începutul proiectului.",
+        description: "Pentru o direcție estetică limpede și o bază bună de pornire.",
         features: ["Consultare", "Moodboard", "Paletă materiale"],
         highlighted: false,
         animate: { y: [0, -5, 0] },
@@ -17,7 +17,7 @@ const plans = [
         name: "Signature",
         tag: "Complet",
         price: "€1.250",
-        description: "Design complet, coerent și pregătit pentru vizualizare.",
+        description: "Pentru un interior coerent, cu imagine clară și soluții bine legate.",
         features: ["Concept complet", "Plan mobilare", "Randări 3D"],
         highlighted: true,
         animate: { y: [0, 7, 0] },
@@ -27,7 +27,7 @@ const plans = [
         name: "Atelier",
         tag: "Premium",
         price: "€2.400",
-        description: "Soluție premium cu detalii custom și suport extins.",
+        description: "Pentru proiecte cu detalii speciale, finisaje alese și suport extins.",
         features: ["Design complet", "Detalii custom", "Asistență proiect"],
         highlighted: false,
         animate: { y: [0, -4, 0] },
@@ -39,7 +39,7 @@ export default function PricingSection() {
     return (
         <section
             id="pricing"
-            className="relative min-h-screen overflow-hidden bg-[#ddd0b8] px-6 py-14 md:px-10 lg:px-16 lg:py-16"
+            className="relative min-h-screen overflow-hidden bg-[#ddd0b8] px-5 py-12 md:px-10 md:py-14 lg:px-16 lg:py-16"
         >
             {/* Tranziție din TeamSection */}
             <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-20 bg-gradient-to-b from-[#e7d8bd] to-[#ddd0b8]" />
@@ -52,25 +52,25 @@ export default function PricingSection() {
             <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-64 bg-gradient-to-b from-transparent via-[#d8c9b1]/70 to-[#d4c4ac]" />
 
             <div className="relative z-10 mx-auto flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col justify-center">
-                <div className="rounded-[34px] border border-white/60 bg-white/20 px-6 py-8 shadow-[0_24px_80px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl md:px-10 lg:px-12 lg:py-10">
+                <div className="rounded-[26px] border border-white/60 bg-white/20 px-5 py-7 shadow-[0_24px_80px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-xl md:rounded-[34px] md:px-10 md:py-8 lg:px-12 lg:py-10">
                     {/* Header */}
                     <div className="mx-auto max-w-2xl text-center">
             <span className="mb-3 block text-[10px] font-bold uppercase tracking-[0.28em] text-[#9a7b3e]">
               04 / Oferte
             </span>
 
-                        <h2 className="text-3xl font-black uppercase leading-[0.95] tracking-[-0.05em] text-[#2a2420] md:text-4xl lg:text-5xl">
-                            Pachete de design pentru spații cu intenție.
+                        <h2 className="text-2xl font-black uppercase leading-[1] tracking-[-0.04em] text-[#2a2420] md:text-4xl md:leading-[0.95] md:tracking-[-0.05em] lg:text-5xl">
+                            Pachete create pentru ritmul proiectului tău.
                         </h2>
 
                         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#5a5145]">
-                            Alege pachetul potrivit — de la concept inițial până la design
-                            complet și vizualizare 3D.
+                            Fiecare colaborare poate începe simplu și poate crește firesc,
+                            de la direcție estetică până la proiect complet și suport dedicat.
                         </p>
                     </div>
 
                     {/* Cards */}
-                    <div className="mt-8 grid gap-5 lg:grid-cols-3">
+                    <div className="mt-7 grid gap-4 md:mt-8 md:gap-5 lg:grid-cols-3">
                         {plans.map((plan) => (
                             <motion.article
                                 key={plan.name}
@@ -80,7 +80,7 @@ export default function PricingSection() {
                                     repeat: Infinity,
                                     ease: "easeInOut",
                                 }}
-                                className={`relative overflow-hidden rounded-[24px] border p-5 shadow-[0_16px_40px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-lg transition duration-300 hover:-translate-y-1 ${
+                                className={`relative overflow-hidden rounded-[22px] border p-4 shadow-[0_16px_40px_rgba(45,38,30,0.10),inset_0_1px_0_rgba(255,255,255,0.7)] backdrop-blur-lg transition duration-300 hover:-translate-y-1 md:rounded-[24px] md:p-5 ${
                                     plan.highlighted
                                         ? "border-[#d6bf86]/70 bg-[#f8f1e5]/70"
                                         : "border-white/60 bg-white/30"
@@ -146,7 +146,7 @@ export default function PricingSection() {
                     </div>
 
                     <p className="mt-7 text-center text-[10px] font-medium uppercase tracking-[0.16em] text-[#6a6054]">
-                        Prețurile sunt orientative și pot varia în funcție de complexitate.
+                        Prețurile sunt orientative și se ajustează în funcție de spațiu, complexitate și nivelul de detaliu.
                     </p>
                 </div>
             </div>
