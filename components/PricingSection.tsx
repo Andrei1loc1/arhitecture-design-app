@@ -9,7 +9,11 @@ const plans = [
         tag: "Start",
         price: "€450",
         description: "Pentru o cameră care merită mai mult decât o simplă reamenajare.",
-        features: ["Stare clară pentru spațiu", "Culori și texturi alese", "Idei ușor de pus în practică"],
+        features: [
+            "O nouă atmosferă pentru camera ta, construită în jurul stilului tău",
+            "Culori, materiale și texturi alese ca să aducă echilibru",
+            "Mobilier și decor care transformă spațiul fără să-l încarce",
+        ],
         highlighted: false,
         animate: { y: [0, -5, 0] },
         duration: 6.5,
@@ -19,7 +23,11 @@ const plans = [
         tag: "Complet",
         price: "€1.350",
         description: "Pentru un apartament care se simte legat, aerisit și bine gândit.",
-        features: ["Fiecare cameră în aceeași poveste", "Mobilare cu sens", "Imagine clară înainte de execuție"],
+        features: [
+            "O direcție vizuală unitară pentru tot apartamentul",
+            "Fiecare cameră legată natural prin lumină, texturi și funcționalitate",
+            "Selecții de mobilier, materiale și accente care fac locuința să curgă",
+        ],
         highlighted: true,
         animate: { y: [0, 7, 0] },
         duration: 7.5,
@@ -27,9 +35,13 @@ const plans = [
     {
         name: "Casă",
         tag: "Premium",
-        price: "€3.050",
+        price: "€2.990",
         description: "Pentru o casă care se simte unitară, elegantă și gândită până la ultimul detaliu.",
-        features: ["Identitate vizuală pentru întreaga locuință", "Finisaje, accente și detalii memorabile", "Ghidaj dedicat de la concept la rezultat"],
+        features: [
+            "O viziune completă pentru o locuință cu identitate",
+            "Detalii personalizate pentru fiecare zonă, de la ambient la finisaje",
+            "Ghidaj atent de la primele idei până la o casă care se simte întreagă",
+        ],
         highlighted: false,
         animate: { y: [0, -4, 0] },
         duration: 6,
@@ -173,7 +185,7 @@ export default function PricingSection() {
                                     </div>
 
                                     <a
-                                        href="#contact"
+                                        href="#design-profile"
                                         className={`mt-5 inline-flex w-full items-center justify-center rounded-full border px-6 py-3 text-[11px] font-extrabold uppercase tracking-[0.18em] transition duration-300 ${
                                             plan.highlighted
                                                 ? "border-[#d6bf86]/70 bg-gradient-to-br from-[#f1deb0] via-[#b69454] to-[#7b5d31] text-[#17130f] shadow-[0_10px_22px_rgba(78,56,25,0.20),inset_0_1px_0_rgba(255,255,255,0.65)] hover:brightness-105"
