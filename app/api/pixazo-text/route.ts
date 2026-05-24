@@ -5,40 +5,40 @@ const PIXAZO_URL = "https://gateway.pixazo.ai/flux-1-schnell/v1/getData";
 function buildFloorPlanPrompt(userPrompt: string) {
     const cleanedPrompt = userPrompt.trim();
 
+    // Extragem numărul de camere din promptul userului dacă există
+    const roomCountMatch = cleanedPrompt.match(/(\d+)\s*(camere|rooms|bedroom|dormitor|living|kitchen|bucatarie|bathroom|baie)/i);
+    const requestedRooms = roomCountMatch ? parseInt(roomCountMatch[1]) : null;
+
     return `
-TASK:
-Convert the described apartment floor plan into a top-down 3D furnished interior render.
+[ROLE] You are an expert architectural visualization AI. Create a precise top-down 3D interior floor plan render based on the user's description.
 
-CORE CONSTRAINTS:
-- This is an apartment floor plan.
-- Not a city map.
-- Not an aerial neighborhood.
-- Not an exterior building render.
-- Show only one apartment unit.
-- Keep the layout recognizable.
-- Preserve room arrangement and wall structure.
-- Show only the apartment interior in top-down view.
-- Furnish each room appropriately.
-- Remove labels, room names, dimensions, symbols, measurements, and technical annotations.
-- Use warm minimalist interior design.
-- Use beige, ivory, warm neutrals, light wood, and soft shadows.
-- Make it look like a premium architectural visualization.
-- Realistic furniture, realistic proportions, clean composition.
-- No text, no watermark.
-
-USER CUSTOMIZATION:
+[INPUT - USER REQUEST]
 ${cleanedPrompt}
 
-NEGATIVE CONSTRAINTS:
-- no city
-- no street
-- no neighborhood
-- no exterior scene
-- no building complex
-- no aerial urban view
-- no blueprint text
-- no labels
-- no watermark
+[CRITICAL RULES - FOLLOW EXACTLY]
+1. ROOM COUNT: Generate EXACTLY the number of rooms specified by the user.${requestedRooms ? ` The user requested ${requestedRooms} rooms. Do NOT add more or fewer rooms.` : ' If no specific number is given, use reasonable defaults for the space described.'}
+2. ROOM LIST: Only include rooms explicitly mentioned by the user. Do NOT add extra rooms (no bonus closets, storage rooms, or utility rooms unless requested).
+3. PERSPECTIVE: Pure top-down orthographic view (bird's eye, 90-degree angle), looking straight down at the floor.
+4. NO EXTERIOR: Show ONLY interior spaces. No building exteriors, no windows showing outside views, no facades.
+5. 3D EFFECT: Walls must have realistic 3D height and thickness (not flat 2D lines). Furniture must be 3D with realistic proportions and shadows.
+6. FURNITURE: Each room must contain context-appropriate furniture. Bedrooms = bed + nightstands. Living = sofa + coffee table. Kitchen = cabinets + island/counter. Bathroom = toilet + sink + shower.
+7. STYLE: Premium warm minimalist interior design. Colors: beige, ivory, cream, warm neutrals, natural light wood, soft champagne lighting.
+8. MATERIALS: Realistic textures - linen, wood grain, stone, ceramic, soft shadows.
+9. NO TEXT: Absolutely NO labels, NO room names, NO dimensions, NO measurements, NO symbols, NO annotations, NO watermarks, NO logos, NO text of any kind.
+10. QUALITY: Photorealistic architectural visualization. Clean composition. Professional lighting.
+
+[NEGATIVE PROMPT - EXCLUDE COMPLETELY]
+- exterior, facade, building outside, windows showing outside
+- city, street, neighborhood, aerial view, urban scene
+- more rooms than requested, bonus rooms, extra spaces
+- 2D flat lines, blueprint style, technical drawing
+- text, labels, dimensions, measurements, annotations, watermark, logo
+- black and white, monochrome, sketch, line drawing
+- cartoon, anime, illustration, painting style
+- blurry, low quality, distorted proportions
+
+[OUTPUT FORMAT]
+Single high-resolution image. Top-down 3D interior floor plan render. No text anywhere.
 `;
 }
 export async function POST(req: NextRequest) {

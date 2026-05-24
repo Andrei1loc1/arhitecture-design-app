@@ -80,23 +80,47 @@ export async function POST(req: Request) {
         );
 
         const prompt = `
-Convert this black and white apartment floor plan into a top-down 3D furnished interior render.
+[ROLE] Expert architectural visualization AI. Transform the uploaded 2D floor plan into a photorealistic top-down 3D interior render.
 
-Important:
-- This is an apartment floor plan, not a city map, not an aerial neighborhood, not an exterior view.
-- Keep the apartment layout recognizable.
-- Preserve the general room arrangement and wall structure.
-- Show a top-down interior visualization of the apartment only.
-- Convert each room into a furnished interior space.
-- Remove all labels, room names, dimensions, symbols and technical annotations.
-- Use a warm minimalist interior style with beige, ivory, light wood and soft shadows.
-- Show only one apartment unit, not multiple buildings.
-- No aerial city view, no streets, no neighborhood, no exterior urban scene.
-- No text, no watermark.
+[INPUT ANALYSIS]
+Analyze the uploaded floor plan image carefully. Count the rooms visible in the original plan. Generate EXACTLY that number of rooms - do NOT add extra rooms or remove existing ones.
+
+[CRITICAL RULES]
+1. ROOM COUNT: Generate EXACTLY the same number of rooms as shown in the uploaded floor plan. If the plan shows 2 rooms, render 2 rooms. If it shows 3 rooms, render 3 rooms. NEVER add bonus rooms.
+2. PRESERVE LAYOUT: Keep the exact wall positions, door placements, window locations, and room proportions from the original plan.
+3. PERSPECTIVE: Strict top-down orthographic view (90-degree vertical angle). Bird's eye looking straight down.
+4. 3D EFFECT: All walls must have visible height and thickness. Furniture must be 3D with realistic depth, shadows, and proportions.
+5. INTERIOR ONLY: Show only the inside of the apartment. No exterior walls, no building facade, no outside view through windows.
+6. FURNITURE: Each room gets appropriate furniture based on room type:
+   - Bedroom: bed, nightstands, wardrobe
+   - Living room: sofa, coffee table, TV unit, rug
+   - Kitchen: cabinets, counter, fridge, stove, island if space allows
+   - Bathroom: toilet, sink, shower/tub, mirror
+   - Dining: table, chairs, maybe sideboard
+7. STYLE: Warm minimalist premium interior. Colors: beige, ivory, cream, warm taupe, natural light oak wood. Soft ambient lighting with gentle shadows.
+8. MATERIALS: Realistic textures - linen upholstery, wood grain, stone countertops, ceramic tiles, soft fabric.
+9. NO TEXT: Remove ALL labels, room names, dimensions, measurements, symbols, annotations, legends. Absolutely zero text or numbers.
+10. QUALITY: Photorealistic, premium architectural visualization, clean composition, professional lighting.
+
+[STYLE DETAILS]
+- Warm neutral color palette
+- Natural materials and textures
+- Soft shadows and ambient lighting
+- Realistic furniture proportions
+- Clean uncluttered spaces
+- Premium feel
+
+[OUTPUT]
+Single high-resolution top-down 3D interior render. No text anywhere.
 `;
 
         const negative_prompt = `
-city, aerial view, satellite image, urban grid, neighborhood, roads, buildings, map, exterior, multiple houses, block layout, text, labels, dimensions, watermark
+more rooms than original, extra rooms, bonus spaces, fewer rooms than original, missing rooms,
+2D flat blueprint, technical drawing, line art, sketch, cartoon, anime, illustration, painting,
+exterior view, building facade, outside scene, city, street, aerial view, neighborhood,
+text, labels, numbers, dimensions, measurements, annotations, watermark, logo, signature,
+black and white, monochrome, grayscale, low quality, blurry, distorted proportions, bad anatomy,
+multiple apartments, building complex, floor plan with text, blueprint style
 `;
 
         const response = await fetch(
