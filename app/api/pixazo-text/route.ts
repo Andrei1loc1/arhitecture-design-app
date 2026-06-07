@@ -2,43 +2,105 @@ import { NextRequest, NextResponse } from "next/server";
 
 const PIXAZO_URL = "https://gateway.pixazo.ai/flux-1-schnell/v1/getData";
 
+function parseRoomsFromPrompt(userPrompt: string): string[] {
+    const prompt = userPrompt.toLowerCase();
+    const rooms: string[] = [];
+    
+    // Detectăm tipurile de camere menționate
+    if (prompt.includes('living') || prompt.includes('sufragerie') || prompt.includes('sala')) {
+        rooms.push('Living room');
+    }
+    if (prompt.includes('bucatarie') || prompt.includes('kitchen') || prompt.includes('bucătărie')) {
+        rooms.push('Kitchen');
+    }
+    if (prompt.includes('dormitor') || prompt.includes('bedroom') || prompt.includes('cameră') || prompt.includes('camera')) {
+        // Extragem numărul de dormitoare
+        const match = prompt.match(/(\d+)\s*(dormitor|bedroom|cameră|camera|camere)/);
+        const count = match ? parseInt(match[1]) : 1;
+        for (let i = 0; i < count; i++) {
+            rooms.push(count > 1 ? `Bedroom ${i + 1}` : 'Bedroom');
+        }
+    }
+    if (prompt.includes('baie') || prompt.includes('bathroom') || prompt.includes('toaletă') || prompt.includes('toaleta')) {
+        rooms.push('Bathroom');
+    }
+    if (prompt.includes('dining') || prompt.includes('sufragerie') || prompt.includes('mancare') || prompt.includes('masă')) {
+        rooms.push('Dining room');
+    }
+    if (prompt.includes('hol') || prompt.includes('hallway') || prompt.includes('foyer') || prompt.includes('antreu')) {
+        rooms.push('Entrance hallway');
+    }
+    if (prompt.includes('birou') || prompt.includes('office') || prompt.includes('studio') || prompt.includes('lucru')) {
+        rooms.push('Home office');
+    }
+    if (prompt.includes('balcon') || prompt.includes('balcony') || prompt.includes('terasa') || prompt.includes('terasă')) {
+        rooms.push('Balcony');
+    }
+    if (prompt.includes('dressing') || prompt.includes('closet') || prompt.includes('wardrobe')) {
+        rooms.push('Walk-in closet');
+    }
+    
+    // Dacă nu am detectat nicio cameră specifică, returnăm living + kitchen ca default
+    if (rooms.length === 0) {
+        rooms.push('Living room', 'Kitchen', 'Bathroom');
+    }
+    
+    // Adăugăm mandatory bathroom dacă nu există deja
+    const hasBathroom = rooms.some(r => r.includes('Bathroom'));
+    if (!hasBathroom) {
+        rooms.push('Bathroom');
+    }
+    
+    return rooms;
+}
+
 function buildFloorPlanPrompt(userPrompt: string) {
     const cleanedPrompt = userPrompt.trim();
-
-    // Extragem numărul de camere din promptul userului dacă există
-    const roomCountMatch = cleanedPrompt.match(/(\d+)\s*(camere|rooms|bedroom|dormitor|living|kitchen|bucatarie|bathroom|baie)/i);
-    const requestedRooms = roomCountMatch ? parseInt(roomCountMatch[1]) : null;
-
+    const rooms = parseRoomsFromPrompt(cleanedPrompt);
+    const roomList = rooms.map((room, index) => `${index + 1}. ${room}`).join('\n');
+    const roomCount = rooms.length;
+    
     return `
-[ROLE] You are an expert architectural visualization AI. Create a precise top-down 3D interior floor plan render based on the user's description.
+TOP-DOWN 3D INTERIOR FLOOR PLAN. Aerial bird's eye view looking straight down at 90 degrees.
 
-[INPUT - USER REQUEST]
-${cleanedPrompt}
+Generate a photorealistic top-down floor plan render of an apartment with EXACTLY ${roomCount} rooms:
+${roomList}
 
-[CRITICAL RULES - FOLLOW EXACTLY]
-1. ROOM COUNT: Generate EXACTLY the number of rooms specified by the user.${requestedRooms ? ` The user requested ${requestedRooms} rooms. Do NOT add more or fewer rooms.` : ' If no specific number is given, use reasonable defaults for the space described.'}
-2. ROOM LIST: Only include rooms explicitly mentioned by the user. Do NOT add extra rooms (no bonus closets, storage rooms, or utility rooms unless requested).
-3. PERSPECTIVE: Pure top-down orthographic view (bird's eye, 90-degree angle), looking straight down at the floor.
-4. NO EXTERIOR: Show ONLY interior spaces. No building exteriors, no windows showing outside views, no facades.
-5. 3D EFFECT: Walls must have realistic 3D height and thickness (not flat 2D lines). Furniture must be 3D with realistic proportions and shadows.
-6. FURNITURE: Each room must contain context-appropriate furniture. Bedrooms = bed + nightstands. Living = sofa + coffee table. Kitchen = cabinets + island/counter. Bathroom = toilet + sink + shower.
-7. STYLE: Premium warm minimalist interior design. Colors: beige, ivory, cream, warm neutrals, natural light wood, soft champagne lighting.
-8. MATERIALS: Realistic textures - linen, wood grain, stone, ceramic, soft shadows.
-9. NO TEXT: Absolutely NO labels, NO room names, NO dimensions, NO measurements, NO symbols, NO annotations, NO watermarks, NO logos, NO text of any kind.
-10. QUALITY: Photorealistic architectural visualization. Clean composition. Professional lighting.
+CRITICAL RULES:
+- PERSPECTIVE: STRICT top-down aerial view (90° vertical angle). Looking straight down at the floor. NOT 3/4 view. NOT perspective view. NOT isometric. Pure top-down.
+- Each room is a separate enclosed space with 3D walls (20-30cm thick, visible height).
+- Toilet MUST be inside Bathroom only. Never in kitchen/living/hallway.
+- Bathroom door must NOT open into kitchen.
+- Kitchen: cabinets, counter, sink, stove. No bed/toilet in kitchen.
+- Furniture is 3D with realistic proportions and shadows.
+- Style: warm minimalist. Beige, ivory, cream, light oak wood. Soft ambient lighting.
+- NO text, labels, dimensions, annotations, watermarks.
 
-[NEGATIVE PROMPT - EXCLUDE COMPLETELY]
-- exterior, facade, building outside, windows showing outside
-- city, street, neighborhood, aerial view, urban scene
-- more rooms than requested, bonus rooms, extra spaces
-- 2D flat lines, blueprint style, technical drawing
-- text, labels, dimensions, measurements, annotations, watermark, logo
-- black and white, monochrome, sketch, line drawing
-- cartoon, anime, illustration, painting style
-- blurry, low quality, distorted proportions
+FURNITURE BY ROOM (ONLY these items, placed correctly):
+- Living room: One L-shaped sofa against a wall, one rectangular coffee table in center, one TV stand against opposite wall, one area rug under coffee table. NO bed, NO dining table, NO toilet.
+- Kitchen: L-shaped or linear counter along walls, upper cabinets above counter, sink in counter, stove, refrigerator against wall. One small dining table with 2-4 chairs if space allows. NO bed, NO sofa, NO toilet.
+- Bathroom: One toilet in corner, one sink with mirror on wall, one shower cabin or bathtub. NO bed, NO sofa, NO kitchen appliances, NO dining table.
+- Bedroom: One double bed with headboard against wall (NOT mattress on floor), two nightstands beside bed, one wardrobe/closet against wall. NO sofa, NO kitchen appliances, NO dining table, NO toilet.
+- Dining room: One rectangular dining table centered, 4-6 chairs around table, one sideboard against wall. NO bed, NO sofa, NO toilet.
+- Hallway: Small console table or coat rack against wall, maybe mirror. NO bed, NO sofa, NO kitchen appliances, NO dining table, NO toilet.
 
-[OUTPUT FORMAT]
-Single high-resolution image. Top-down 3D interior floor plan render. No text anywhere.
+NEGATIVE:
+- 3/4 perspective view, isometric, angled view, side view, interior corner view, room corner perspective
+- mattress on floor, bed on floor without frame, sleeping mat on floor, futon on floor
+- toilet in kitchen, toilet in living room, open toilet, toilet visible
+- sofa in bedroom, sofa in bathroom, sofa in kitchen
+- bed in kitchen, bed in living room, bed in bathroom
+- dining table in bedroom, dining table in bathroom
+- kitchen appliances in living room, stove in bedroom, refrigerator in hallway
+- random objects, clutter, boxes, piles of items, scattered objects
+- more than ${roomCount} rooms, fewer than ${roomCount} rooms
+- 2D blueprint, technical drawing, sketch, line art, flat lines
+- exterior view, building facade, city, street
+- text, labels, dimensions, watermark, logo
+- cartoon, anime, illustration, painting
+- black and white, low quality, blurry
+
+Output: Single photorealistic top-down 3D interior floor plan. ${roomCount} rooms with correct furniture placement. No text. Strict top-down view.
 `;
 }
 export async function POST(req: NextRequest) {

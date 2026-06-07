@@ -80,38 +80,47 @@ export async function POST(req: Request) {
         );
 
         const prompt = `
-[ROLE] Expert architectural visualization AI. Transform the uploaded 2D floor plan into a photorealistic top-down 3D interior render.
+[SYSTEM] You are a certified architect. Transform the uploaded 2D floor plan into a photorealistic top-down 3D interior render. Apply real architectural principles.
 
-[INPUT ANALYSIS]
-Analyze the uploaded floor plan image carefully. Count the rooms visible in the original plan. Generate EXACTLY that number of rooms - do NOT add extra rooms or remove existing ones.
+[INPUT]
+Uploaded floor plan image showing a residential apartment layout.
 
-[CRITICAL RULES]
-1. ROOM COUNT: Generate EXACTLY the same number of rooms as shown in the uploaded floor plan. If the plan shows 2 rooms, render 2 rooms. If it shows 3 rooms, render 3 rooms. NEVER add bonus rooms.
-2. PRESERVE LAYOUT: Keep the exact wall positions, door placements, window locations, and room proportions from the original plan.
-3. PERSPECTIVE: Strict top-down orthographic view (90-degree vertical angle). Bird's eye looking straight down.
-4. 3D EFFECT: All walls must have visible height and thickness. Furniture must be 3D with realistic depth, shadows, and proportions.
-5. INTERIOR ONLY: Show only the inside of the apartment. No exterior walls, no building facade, no outside view through windows.
-6. FURNITURE: Each room gets appropriate furniture based on room type:
+[CRITICAL ARCHITECTURAL RULES]
+1. PRESERVE EXACT LAYOUT: Count the rooms in the uploaded plan. Render EXACTLY that many rooms. No more, no less.
+2. MANDATORY BATHROOM: If the plan shows a bathroom/toilet symbol, it MUST become a proper separate bathroom room. If no bathroom symbol exists but it's a residential unit, add 1 bathroom logically.
+3. TOILET LOCATION RULES:
+   - Toilet MUST be inside a closed bathroom room
+   - Toilet CANNOT be in kitchen, living room, or hallway
+   - Bathroom door must NOT open directly into kitchen
+4. KITCHEN RULES:
+   - Kitchen must have proper counter, cabinets, sink
+   - No toilet, no bed, no shower in kitchen
+   - Kitchen must be adjacent to living/dining area
+5. CIRCULATION LOGIC:
+   - Use hallway/foyer to connect rooms
+   - Bedroom needs privacy, not directly visible from entrance
+   - Avoid walking through one room to reach another
+6. WALL THICKNESS: All walls must show realistic 3D thickness (20-30cm).
+7. ROOM FUNCTIONALITY:
+   - Living: sofa, coffee table, TV, rug
+   - Kitchen: cabinets, counter, sink, stove, fridge
+   - Bathroom: toilet (in closed room!), sink, shower
    - Bedroom: bed, nightstands, wardrobe
-   - Living room: sofa, coffee table, TV unit, rug
-   - Kitchen: cabinets, counter, fridge, stove, island if space allows
-   - Bathroom: toilet, sink, shower/tub, mirror
-   - Dining: table, chairs, maybe sideboard
-7. STYLE: Warm minimalist premium interior. Colors: beige, ivory, cream, warm taupe, natural light oak wood. Soft ambient lighting with gentle shadows.
-8. MATERIALS: Realistic textures - linen upholstery, wood grain, stone countertops, ceramic tiles, soft fabric.
-9. NO TEXT: Remove ALL labels, room names, dimensions, measurements, symbols, annotations, legends. Absolutely zero text or numbers.
-10. QUALITY: Photorealistic, premium architectural visualization, clean composition, professional lighting.
+8. STYLE: Warm minimalist premium. Beige, ivory, cream, natural light wood. Soft ambient lighting.
+9. PERSPECTIVE: Strict top-down orthographic (90°). 3D effect with realistic wall height.
+10. NO TEXT: Remove all labels, dimensions, annotations. Zero text.
 
-[STYLE DETAILS]
-- Warm neutral color palette
-- Natural materials and textures
-- Soft shadows and ambient lighting
-- Realistic furniture proportions
-- Clean uncluttered spaces
-- Premium feel
+[SPATIAL FLOW]
+Entrance → Foyer → Public zones (living/kitchen) → Private zones (bedrooms/bath)
+Bathroom accessible from hallway or near bedrooms. NOT from kitchen.
 
-[OUTPUT]
-Single high-resolution top-down 3D interior render. No text anywhere.
+[NEGATIVE PROMPT]
+toilet in kitchen, toilet visible from living room, toilet in hallway, toilet in open space,
+extra rooms not in original plan, missing rooms from original plan,
+2D flat blueprint, technical drawing, line art, sketch, cartoon, anime,
+exterior view, building facade, outside scene, city, street, aerial,
+text, labels, dimensions, measurements, annotations, watermark, logo,
+black and white, monochrome, low quality, blurry, distorted
 `;
 
         const negative_prompt = `

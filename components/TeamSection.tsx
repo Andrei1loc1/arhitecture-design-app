@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const teamMembers = [
     {
         name: "Lighezan Adina",
-        role: "Specialist arhitectură & design interior",
+        role: "Tehnician Design interior",
         image: "/images/team-2.jpeg",
         className: "relative h-40 w-40 md:absolute md:left-[8%] md:top-[12%] md:h-48 md:w-48",
         animate: { y: [0, -18, 0], x: [0, 10, 0] },
